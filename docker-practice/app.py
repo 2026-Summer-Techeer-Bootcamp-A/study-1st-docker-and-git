@@ -1,14 +1,19 @@
-# Flask 라이브러리에서 Flask 클래스를 가져와요.
 from flask import Flask
+from dotenv import load_dotenv
+import os
 
-# Flask 애플리케이션 객체를 만들어요. 이 app 이 우리 웹 서버예요.
+
+load_dotenv() # .env 파일 읽어오기
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'your_secret_key'  # 시크릿 키 설정
+ENV_NAME = os.environ.get('ENV_NAME', 'Unknown')  # 환경 변수에서 ENV_NAME 가져오기, 없으면 'Unknown'으로 설정
 
 
 # "/" 주소(루트 경로)로 접속하면 아래 함수가 실행돼요.
 @app.route("/")
 def hello():
-    return "<h1>Hello Docker! 🐳</h1><p>도커 컨테이너 안에서 실행되고 있어요.</p>"
+    return f"<h1>Hello Docker! 🐳</h1><p>도커 컨테이너 안에서 실행되고 있어요. 이름은 {ENV_NAME} 입니다.</p>"
 
 
 # 이 파일을 직접 실행했을 때만 서버를 띄워요.
